@@ -1,0 +1,83 @@
+QMainWindow {
+    background-color: #f3f7f8;
+}
+
+QWidget {
+    color: #23343b;
+    font-family: "Segoe UI", "Arial", sans-serif;
+    font-size: 10pt;
+}
+
+QLabel#pageTitle {
+    color: #18343e;
+    font-size: 23pt;
+    font-weight: 700;
+}
+
+QLabel#pageSubtitle {
+    color: #71838a;
+    font-size: 10.5pt;
+}
+
+QFrame#chartCard {
+    background-color: #ffffff;
+    border: 1px solid #e2eaed;
+    border-radius: 14px;
+}
+
+QLabel#chartTitle {
+    color: #29444d;
+    font-size: 12pt;
+    font-weight: 600;
+}
+
+QPushButton {
+    min-height: 38px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+QPushButton#primaryButton {
+    color: #ffffff;
+    background-color: #347f8a;
+}
+
+QPushButton#primaryButton:hover {
+    background-color: #286d77;
+}
+
+QPushButton#primaryButton:pressed {
+    background-color: #205a63;
+}
+
+QPushButton#secondaryButton {
+    color: #347f8a;
+    background-color: #e6f1f2;
+}
+
+QPushButton#secondaryButton:hover {
+    background-color: #d7e9eb;
+}
+
+QPushButton#secondaryButton:pressed {
+    background-color: #c8dfe2;
+}
+
+QToolBar {
+    spacing: 5px;
+    border: none;
+    background: transparent;
+}
+
+QToolBar QToolButton {
+    min-width: 28px;
+    min-height: 28px;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+QToolBar QToolButton:hover {
+    background-color: #e6f1f2;
+}
