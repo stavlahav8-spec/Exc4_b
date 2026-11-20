@@ -1,5 +1,6 @@
 import os
 import sys
+import numpy as np
 
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.figure import Figure
@@ -92,40 +93,43 @@ class MainWindow(QMainWindow):
         )
         if file_path:
             self.selected_file = file_path
-            # TODO: Read the CSV into self.temperatures and self.revenues, then call self.plot_graph().
+            self.revenues.clear()
+            self.temperatures.clear()
 
+            with open(self.selected_file, 'r') as f:
+                next(f)
+                for line in f:
+                    if line.strip():
+                        parts = line.strip().split(',')
+                        self.revenues.append(float(parts[0]))
+                        self.temperatures.append(float(parts[1]))
+
+            self.plot_graph()
+    
     def on_about(self) -> None:
         self.about_window = AboutWindow(self)
         self.about_window.show()
 
     def plot_graph(self) -> None:
-        temperatures = [10, 15, 20, 25, 30, 35]
-        revenues = [120, 180, 260, 340, 430, 510]
-
         self.figure.clear()
         axes = self.figure.add_subplot(111)
-        axes.plot(
-            temperatures,
-            revenues,
-            color="#4b9ca8",
-            linewidth=2.5,
-            marker="o",
-            markersize=7,
-            markerfacecolor="#f4a261",
-        )
-        axes.set_title("Ice Cream Sales Revenue", loc="left", pad=16)
-        axes.set_xlabel("Temperature (°C)")
-        axes.set_ylabel("Revenue")
-        axes.grid(True, color="#e5edf0", linewidth=0.8)
-        axes.set_axisbelow(True)
+
+        axes.set_title("Ice Cream Sales Revenue vs. Temperature")
+        axes.set_xlabel("Temperature")
+        axes.set_ylabel("Revenue ($)")
         axes.spines["top"].set_visible(False)
         axes.spines["right"].set_visible(False)
-        axes.spines["left"].set_color("#c8d6dc")
-        axes.spines["bottom"].set_color("#c8d6dc")
-        axes.tick_params(colors="#536872")
+
+        if len(self.temperatures) > 0:
+            axes.scatter(self.temperatures, self.revenues, s=1)
+            m, b = np.polyfit(self.temperatures, self.revenues, 1)
+            x_line = np.array([min(self.temperatures), max(self.temperatures)])
+            y_line = m * x_line + b
+            axes.plot(x_line, y_line, color="red", label=f"y = {m:.2f}x + {b:.2f}")
+            axes.legend()
+
         self.figure.tight_layout()
         self.canvas.draw()
-
 
 def main() -> None:
     app = QApplication(sys.argv)
