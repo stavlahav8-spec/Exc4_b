@@ -4,6 +4,7 @@ import numpy as np
 
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.figure import Figure
+from PySide6.QtCore import QSize, Qt
 from PySide6.QtWidgets import (
     QApplication,
     QFileDialog,
@@ -77,6 +78,8 @@ class MainWindow(QMainWindow):
         self.figure = Figure(figsize=(8, 5), dpi=100)
         self.canvas = FigureCanvasQTAgg(self.figure)
         self.toolbar = NavigationToolbar2QT(self.canvas, self)
+        self.toolbar.setIconSize(QSize(18, 18))
+        self.toolbar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
         chart_layout.addWidget(self.toolbar)
         chart_layout.addWidget(self.canvas, stretch=1)
         central_layout.addWidget(chart_card, stretch=1)
@@ -101,8 +104,8 @@ class MainWindow(QMainWindow):
                 for line in f:
                     if line.strip():
                         parts = line.strip().split(',')
-                        self.revenues.append(float(parts[0]))
-                        self.temperatures.append(float(parts[1]))
+                        self.temperatures.append(float(parts[0]))
+                        self.revenues.append(float(parts[1]))
 
             self.plot_graph()
     
@@ -115,7 +118,7 @@ class MainWindow(QMainWindow):
         axes = self.figure.add_subplot(111)
 
         axes.set_title("Ice Cream Sales Revenue vs. Temperature")
-        axes.set_xlabel("Temperature")
+        axes.set_xlabel("Temperature (C)")
         axes.set_ylabel("Revenue ($)")
         axes.spines["top"].set_visible(False)
         axes.spines["right"].set_visible(False)
